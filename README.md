@@ -1,4 +1,4 @@
-# qb_tracker_updater
+# voe-dl
 
 Download HLS streams from voe.sx using [youtube-dl](https://github.com/ytdl-org/youtube-dl) or [yt-dlp](https://github.com/yt-dlp/yt-dlp) as backends.
 
