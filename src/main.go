@@ -17,7 +17,7 @@ import (
  */
 
 func main() {
-	if len(os.Args) < 2 {
+	if len(os.Args) < 3 {
 		splash(true)
 		os.Exit(0)
 	}
@@ -25,13 +25,28 @@ func main() {
 	splash(false)
 
 	cliUrl := os.Args[1]
-	youtubeDLArgs := os.Args[2:]
+	driver := os.Args[2]
+
+	youtubeDLArgs := []string{}
+
+	if len(os.Args) > 3 {
+		youtubeDLArgs = os.Args[3:]
+	}
 
 	url, err := getHLSIndexUrl(cliUrl)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("[core] Fetched %s\n", url)
-	spawnYoutubeDL(url, youtubeDLArgs)
+	if driver == "-d" {
+		spawnYoutubeDL(url, false, youtubeDLArgs)
+	} else if driver == "-p" {
+		spawnYoutubeDL(url, true, youtubeDLArgs)
+	} else if driver == "-s" {
+		fmt.Println(url)
+		return
+	} else {
+		fmt.Printf("\033[1;31m%s\033[0m\n", "You must specify which driver to use, -p for yt-dlp or -d for youtube-dl")
+	}
+
 }

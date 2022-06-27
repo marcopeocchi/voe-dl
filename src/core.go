@@ -42,13 +42,23 @@ func getHLSIndexUrl(url string) (string, error) {
 		}
 	}
 
+	fmt.Printf("[core] Fetched %s%s%s\n", streamUrl, streamSlug, hlsIndex)
+
 	return streamUrl + streamSlug + hlsIndex, err
 }
 
-func spawnYoutubeDL(streamUrl string, cliParams []string) {
+func spawnYoutubeDL(streamUrl string, ytdlp bool, cliParams []string) {
 	params := append([]string{streamUrl, "--newline"}, cliParams...)
 
-	cmd := exec.Command("yt-dlp", params...)
+	var driver string
+
+	if ytdlp {
+		driver = "yt-dlp"
+	} else {
+		driver = "youtube-dl"
+	}
+
+	cmd := exec.Command(driver, params...)
 	r, _ := cmd.StdoutPipe()
 	scan := bufio.NewScanner(r)
 
