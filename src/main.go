@@ -33,20 +33,19 @@ func main() {
 		youtubeDLArgs = os.Args[3:]
 	}
 
-	url, err := getHLSIndexUrl(cliUrl)
+	url, title, err := getHLSIndexUrl(cliUrl)
 	if err != nil {
 		panic(err)
 	}
 
 	if driver == "-d" {
-		spawnYoutubeDL(url, false, youtubeDLArgs)
+		spawnYoutubeDL(url, title, false, youtubeDLArgs)
 	} else if driver == "-p" {
-		spawnYoutubeDL(url, true, youtubeDLArgs)
+		spawnYoutubeDL(url, title, true, youtubeDLArgs)
 	} else if driver == "-s" {
 		fmt.Println(url)
 		return
 	} else {
 		fmt.Printf("\033[1;31m%s\033[0m\n", "You must specify which driver to use, -p for yt-dlp or -d for youtube-dl")
 	}
-
 }

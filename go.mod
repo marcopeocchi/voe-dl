@@ -11,5 +11,6 @@ require (
 	github.com/stretchr/objx v0.1.0 // indirect
 	github.com/stretchr/testify v1.4.0 // indirect
 	github.com/teivah/onecontext v0.0.0-20200513185103-40f981bfd775 // indirect
+	golang.org/x/exp v0.0.0-20220613132600-b0d781184e0d // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect
 )
