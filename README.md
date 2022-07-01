@@ -14,10 +14,8 @@ __ |/ / / /_/ /_  /___/_____/  /_/ /_  /___
 _____/  \____/ /_____/      /_____/ /_____/.go
 
 youtube-dl / yt-dlp wrapper for voe.sx HLS streams
----------------------------------------------------------------------
-Usage: voe-dl <voe.sx stream url> <driver> [youtube-dl args]
-Drivers: -d -> youtube-dl
-         -p -> yt-dlp
+
+Usage: voe-dl -u <voe.sx stream url> -d <driver> [-a youtube-dl args]
 ```
 
 ## Build from source

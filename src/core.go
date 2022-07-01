@@ -48,22 +48,14 @@ func getHLSIndexUrl(url string) (string, string, error) {
 		}
 	}
 
-	return streamUrl + streamSlug + hlsIndex, title, err
+	return (streamUrl + streamSlug + hlsIndex), title, err
 }
 
-func spawnYoutubeDL(streamUrl string, title string, ytdlp bool, cliParams []string) {
+func spawnYoutubeDL(streamUrl string, title string, driver string, cliParams []string) {
 	params := append([]string{streamUrl, "--newline"}, cliParams...)
 
 	if !slices.Contains(params, "-o") {
 		params = append(params, "-o", title+".%(ext)s")
-	}
-
-	var driver string
-
-	if ytdlp {
-		driver = "yt-dlp"
-	} else {
-		driver = "youtube-dl"
 	}
 
 	cmd := exec.Command(driver, params...)

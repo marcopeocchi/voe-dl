@@ -1,8 +1,10 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
+	"strings"
 )
 
 /***
@@ -17,35 +19,29 @@ import (
  */
 
 func main() {
-	if len(os.Args) < 3 {
+	cliUrl := flag.String("u", "", "Video url")
+	driver := flag.String("d", "yt-dlp", "Which driver to use (yt-dlp or youtube-dl)")
+	youtubeDLArgs := flag.String("a", "", "youtube-dl/yt-dlp additional arguments")
+
+	flag.Parse()
+
+	youtubeDLArgsList := strings.Split(*youtubeDLArgs, " ")
+
+	if *cliUrl == "" {
 		splash(true)
-		os.Exit(0)
+		os.Exit(-1)
 	}
 
-	splash(false)
-
-	cliUrl := os.Args[1]
-	driver := os.Args[2]
-
-	youtubeDLArgs := []string{}
-
-	if len(os.Args) > 3 {
-		youtubeDLArgs = os.Args[3:]
-	}
-
-	url, title, err := getHLSIndexUrl(cliUrl)
+	url, title, err := getHLSIndexUrl(*cliUrl)
 	if err != nil {
 		panic(err)
 	}
 
-	if driver == "-d" {
-		spawnYoutubeDL(url, title, false, youtubeDLArgs)
-	} else if driver == "-p" {
-		spawnYoutubeDL(url, title, true, youtubeDLArgs)
-	} else if driver == "-s" {
-		fmt.Println(url)
-		return
+	if *driver == "yt-dlp" {
+		spawnYoutubeDL(url, title, *driver, youtubeDLArgsList)
+	} else if *driver == "youtube-dl" {
+		spawnYoutubeDL(url, title, *driver, youtubeDLArgsList)
 	} else {
-		fmt.Printf("\033[1;31m%s\033[0m\n", "You must specify which driver to use, -p for yt-dlp or -d for youtube-dl")
+		fmt.Printf("\033[1;31m%s\033[0m\n", "You must specify which driver to use")
 	}
 }
